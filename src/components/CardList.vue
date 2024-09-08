@@ -1,20 +1,26 @@
 <script setup>
 import Card from './Card.vue'
 
-const onClickAdd = () => {
-  alert('Добавить')
-}
+defineProps({
+  items: Array
+})
+
+const emit = defineEmits(['addToFavorite', 'addToCart'])
 </script>
 
 <template>
   <div class="grid grid-cols-4 gap-5">
     <Card
-      title="Мужские Кроссовки Nike Blazer Mid Suede"
-      image-url="/sneakers/sneakers-1.jpg"
-      :price="12000"
-      :onClickAdd="onClickAdd"
-      :onClickFavorite="onClickAdd"
-      :isFavorite="true"
+      v-for="item in items"
+      :key="item.id"
+      :id="item.id"
+      :title="item.title"
+      :image-url="item.imageUrl"
+      :price="item.price"
+      :onClickAdd="() => emit('addToCart', item)"
+      :onClickFavorite="() => emit('addToFavorite', item)"
+      :isFavorite="item.isFavorite"
+      :is-added="item.isAdded"
     />
   </div>
 </template>
